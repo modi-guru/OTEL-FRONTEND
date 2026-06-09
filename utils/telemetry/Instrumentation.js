@@ -41,5 +41,13 @@ const sdk = new opentelemetry.NodeSDK({
 });
 
 sdk.start();
+const { trace } = require("@opentelemetry/api");
+
+setInterval(() => {
+  const tracer = trace.getTracer("debug");
+  const span = tracer.startSpan("frontend-test-span");
+  span.end();
+  console.log("created test span");
+}, 10000);
 
 console.log("=== OTEL STARTED ===");
