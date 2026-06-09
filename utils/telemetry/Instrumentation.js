@@ -1,6 +1,8 @@
 // Copyright The OpenTelemetry Authors
 // SPDX-License-Identifier: Apache-2.0
 
+console.log("=== OTEL LOADED ===");
+
 const opentelemetry = require('@opentelemetry/sdk-node');
 const {getNodeAutoInstrumentations} = require('@opentelemetry/auto-instrumentations-node');
 const {OTLPTraceExporter} = require('@opentelemetry/exporter-trace-otlp-grpc');
@@ -39,3 +41,5 @@ const sdk = new opentelemetry.NodeSDK({
 });
 
 sdk.start();
+
+console.log("=== OTEL STARTED ===");
