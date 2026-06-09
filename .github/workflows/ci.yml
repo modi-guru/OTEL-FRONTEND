@@ -31,3 +31,30 @@ jobs:
           context: .
           push: true
           tags: ${{ env.IMAGE_NAME }}:${{ env.TAG }}
+
+  
+  
+  # 7. Update GitOps repo (CD)
+      - name: Update Helm values
+        env:
+          TAG: ${{ env.TAG }}
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: |
+          set -e
+
+          git clone https://x-access-token:$GH_TOKEN@github.com/modi-guru/otel-observability-k8s-demo.git
+          cd otel-observability-k8s-demo
+
+          # install yq
+          sudo wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq
+          sudo chmod +x /usr/bin/yq
+
+          # 🔥 update ONLY frontend tag
+          yq -i '.frontend.image.tag = env(TAG)' values.yaml
+
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+
+          git add values.yaml
+          git commit -m "update productcatalog image to $TAG" || echo "no changes"
+          git push
