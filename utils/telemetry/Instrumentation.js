@@ -1,6 +1,6 @@
 // Copyright The OpenTelemetry Authors
 // SPDX-License-Identifier: Apache-2.0
-throw new Error("OTEL FILE EXECUTED");
+//throw new Error("OTEL FILE EXECUTED");
 console.log("=== OTEL LOADED ===");
 
 const opentelemetry = require('@opentelemetry/sdk-node');
