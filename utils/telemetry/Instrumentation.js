@@ -3,6 +3,14 @@
 //throw new Error("OTEL FILE EXECUTED");
 console.log("=== OTEL LOADED ===");
 
+const { diag, DiagConsoleLogger, DiagLogLevel } =
+  require('@opentelemetry/api');
+
+diag.setLogger(
+  new DiagConsoleLogger(),
+  DiagLogLevel.DEBUG
+);
+
 const opentelemetry = require('@opentelemetry/sdk-node');
 const {getNodeAutoInstrumentations} = require('@opentelemetry/auto-instrumentations-node');
 const {OTLPTraceExporter} = require('@opentelemetry/exporter-trace-otlp-grpc');
@@ -41,13 +49,5 @@ const sdk = new opentelemetry.NodeSDK({
 });
 
 sdk.start();
-const { trace } = require("@opentelemetry/api");
-
-setInterval(() => {
-  const tracer = trace.getTracer("debug");
-  const span = tracer.startSpan("frontend-test-span");
-  span.end();
-  console.log("created test span");
-}, 10000);
 
 console.log("=== OTEL STARTED ===");
